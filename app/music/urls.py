@@ -13,12 +13,13 @@ from .apis.models.urls import routerModelViewSet
 from .apis.extends.playlist.views import PlaylistUpdateSongApiView
 from .apis.extends.album.views import AlbumUpdateSongApiView
 from .apis.extends.artist.views import ArtistApiView
-from .apis.nft.metadata.views import MetadataAlbum
+from .apis.nft.metadata.views import PinMetadata, Metadata,UpdateIsMintMetadata
+from .apis.nft.collection.views import Collection
 
 
 class DocsView(views.APIView):
     def get(self, request, *args, **kwargs):
-        apidocs = {
+        apiDocs = {
             'api/models/': request.build_absolute_uri('api/models/'),
             # 'api/extends/': request.build_absolute_uri('api/extends/'),
             'api/private/auth/': request.build_absolute_uri('api/private/auth/'),
@@ -27,9 +28,12 @@ class DocsView(views.APIView):
             'api/private/extends/playlists': request.build_absolute_uri('api/private/extends/playlists'),
             'api/public/extends/albums/${id}': request.build_absolute_uri('api/public/extends/albums/1'),
             'api/private/extends/artists': request.build_absolute_uri('api/private/extends/artists'),
+            'api/private/nft/pin-metadata/<int:id>/': request.build_absolute_uri('api/private/nft/pin-metadata/<int:id>/'),
             'api/private/nft/metadata/<int:id>/': request.build_absolute_uri('api/private/nft/metadata/<int:id>/'),
+            'api/public/nft/collection/': request.build_absolute_uri('api/public/nft/collection/'),
+            'api/private/nft/update-mint-nft/': request.build_absolute_uri('api/private/nft/update-mint-nft/'),
         }
-        return Response(apidocs)
+        return Response(apiDocs)
 
 
 urlpatterns = [
@@ -43,5 +47,8 @@ urlpatterns = [
     path(r'api/private/extends/playlists/', PlaylistUpdateSongApiView.as_view(), name='update_song_of_playlist'),
     path(r'api/public/extends/albums/<int:id>/', AlbumUpdateSongApiView.as_view(), name='get_album_by_id'),
     path(r'api/private/extends/artists/', ArtistApiView.as_view(), name='check_and_get_artist'),
-    path(r'api/private/nft/metadata/<int:id>/', MetadataAlbum.as_view(), name='metadata_album'),
+    path(r'api/private/nft/pin-metadata/<int:id>/', PinMetadata.as_view(), name='pin_metadata'),
+    path(r'api/private/nft/metadata/<int:id>/', Metadata.as_view(), name='metadata'),
+    path(r'api/public/nft/collection/', Collection.as_view(), name='collection'),
+    path(r'api/private/nft/update-mint-nft/', UpdateIsMintMetadata.as_view(), name='update_mint_nft'),
 ]

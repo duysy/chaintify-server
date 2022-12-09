@@ -2,11 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, User
 from django.contrib.auth.models import PermissionsMixin
 
-# Create your models here.
-
 
 class CustomUser(AbstractUser, PermissionsMixin):
-    walletAddress = models.CharField(max_length=200, unique=True, null=True)
+    none = models.CharField(max_length=1000, blank=True)
 
 
 class Artist(models.Model):
@@ -28,6 +26,7 @@ class Album(models.Model):
     cover = models.CharField(max_length=200, null=True)
     description = models.TextField(null=True)
     isPublic = models.BooleanField(default=True)
+    isMint = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

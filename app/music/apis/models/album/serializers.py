@@ -7,7 +7,7 @@ from django.forms.models import model_to_dict
 class AlbumSerializerPrivate(serializers.ModelSerializer):
     class Meta:
         model = Album
-        fields = ['id', "user", "artist", "name", "description", "cover", "isPublic", "created_at", "updated_at"]
+        fields = ['id', "user", "artist", "name", "description", "cover", "isPublic","isMint", "created_at", "updated_at"]
         # depth = 1
 
     def __init__(self, *args, **kwargs):

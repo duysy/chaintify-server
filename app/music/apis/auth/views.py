@@ -14,10 +14,19 @@ from django.forms.models import model_to_dict
 from ...models import CustomUser
 from .serializers import LoginSerializer
 
+import random
+from web3 import Web3
+from hexbytes import HexBytes
+from eth_account.messages import encode_defunct
+w3 = Web3(Web3.HTTPProvider(""))
+
 
 class AuthAPIView(views.APIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
+
+    def randomNone(self):
+        return f"{random.randint(11111,999999)}"
 
     def get(self, request, format=None):
         try:
@@ -25,21 +34,27 @@ class AuthAPIView(views.APIView):
         except:
             return Response({"status": "Not Auth"})
         user = model_to_dict(user)
+        del user['password']
         return Response(user)
 
     def post(self, request):
-        username = request.data.get('username')
+        signature = request.data.get('signature')
+
+        message = encode_defunct(text="hello")
+        address = w3.eth.account.recover_message(message, signature=HexBytes(signature))
+        print(address)
+
         try:
-            user = CustomUser.objects.get(username=username)
+            user = CustomUser.objects.get(username=address)
         except:
-            return Response({"status": "Fail"})
+            user = CustomUser.objects.create_user(username=address, password=self.randomNone(), none=self.randomNone())
         token, created = Token.objects.get_or_create(user_id=user.id)
-        print(user)
-        print(token, created)
+        # print(user, token, created)
         return Response({"token": token.key})
 
     def delete(self, request, pk=None):
-        user = CustomUser.objects.get(username="admin")
+        username = request.user
+        user = CustomUser.objects.get(username="username")
         token, created = Token.objects.get_or_create(user_id=user.id)
         token.delete()
         return Response(status=status.HTTP_200_OK)
