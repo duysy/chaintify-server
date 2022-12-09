@@ -18,7 +18,7 @@ from .serializers import UpdateIsMintMetadataSerializer
 
 
 # BASE_GETAWAY = "http://127.0.0.1:8080/ipfs/"
-BASE_GETAWAY = "https://5955-2001-ee0-4b47-a640-2d5f-5aea-a537-9304.ap.ngrok.io/ipfs"
+BASE_GETAWAY = "https://c47d-2001-ee0-4b47-a640-71e7-daff-411c-403b.ap.ngrok.io/ipfs"
 URL_API_IPFS = "/ip4/127.0.0.1/tcp/5001"
 
 ALCHEMY_KEY = "HxETu9kBk_Uvs5LkdMCwvK-2KqV3Eg3i"
