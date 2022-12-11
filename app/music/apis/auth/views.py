@@ -49,7 +49,10 @@ class AuthAPIView(views.APIView):
         except:
             user = CustomUser.objects.create_user(username=address, password=self.randomNone(), none=self.randomNone())
         token, created = Token.objects.get_or_create(user_id=user.id)
-        # print(user, token, created)
+        if created == False:
+            token.delete()
+            token, _ = Token.objects.get_or_create(user_id=user.id)
+        print(user, token)
         return Response({"token": token.key})
 
     def delete(self, request, pk=None):

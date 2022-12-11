@@ -1,3 +1,4 @@
+from ....config import Config
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import viewsets, views, status, mixins, generics
@@ -16,14 +17,13 @@ import requests
 from ....models import Album, Song
 from .serializers import UpdateIsMintMetadataSerializer
 
-
+from web3 import Web3
 # BASE_GETAWAY = "http://127.0.0.1:8080/ipfs/"
-BASE_GETAWAY = "https://c47d-2001-ee0-4b47-a640-71e7-daff-411c-403b.ap.ngrok.io/ipfs"
-URL_API_IPFS = "/ip4/127.0.0.1/tcp/5001"
-
-ALCHEMY_KEY = "HxETu9kBk_Uvs5LkdMCwvK-2KqV3Eg3i"
-CHAINTIFY_CONTRACT_ADDRESS = "0x09f2738264Bd8e8076102f2a010523a60BcE5648"
-CHAINTIFY_ADDRESS_OWNER = "0x71CB05EE1b1F506fF321Da3dac38f25c0c9ce6E1"
+BASE_GETAWAY = Config.BASE_GETAWAY
+URL_API_IPFS = Config.URL_API_IPFS
+ALCHEMY_KEY = Config.ALCHEMY_KEY
+CHAINTIFY_CONTRACT_ADDRESS = Config.CHAINTIFY_CONTRACT_ADDRESS
+RPC_URL = Config.RPC_URL
 
 client = ipfshttpclient.connect(URL_API_IPFS)
 
@@ -93,10 +93,23 @@ class PinMetadata(views.APIView):
 class Metadata(views.APIView):
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')
-        url = f"https://polygon-mumbai.g.alchemy.com/nft/v2/{ALCHEMY_KEY}/getNFTMetadata?contractAddress={CHAINTIFY_CONTRACT_ADDRESS}&tokenId={id}&tokenType=ERC1155&refreshCache=true"
-        headers = {"accept": "application/json"}
-        response = requests.get(url, headers=headers)
-        return Response(response.json())
+        metadata = {}
+
+        # url = f"https://polygon-mumbai.g.alchemy.com/nft/v2/{ALCHEMY_KEY}/getNFTMetadata?contractAddress={CHAINTIFY_CONTRACT_ADDRESS}&tokenId={id}&tokenType=ERC1155&refreshCache=false"
+        # headers = {"accept": "application/json"}
+        # response = requests.get(url, headers=headers)
+        # metadata = response.json()
+        # tokenUri = metadata["tokenUri"]["raw"]
+
+        web3 = Web3(Web3.HTTPProvider(RPC_URL))
+        address = Web3.toChecksumAddress(CHAINTIFY_CONTRACT_ADDRESS)
+        abi = '[{"type":"function","name":"uri","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"uint256","name":"id_"}],"outputs":[{"type":"string"}]}]'
+        contract_instance = web3.eth.contract(address=address, abi=abi)
+        tokenUri = contract_instance.functions.uri(id).call()
+        
+        response = requests.get(tokenUri)
+        metadata["metadata"] = response.json()
+        return Response(metadata)
 
 
 class UpdateIsMintMetadata(views.APIView):
