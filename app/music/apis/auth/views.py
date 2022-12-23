@@ -53,7 +53,7 @@ class AuthAPIView(views.APIView):
             token.delete()
             token, _ = Token.objects.get_or_create(user_id=user.id)
         print(user, token)
-        return Response({"token": token.key})
+        return Response({"token": token.key, "address": address})
 
     def delete(self, request, pk=None):
         username = request.user

@@ -18,10 +18,9 @@ from .serializers import PlaylistUpdateSongSerializer
 class PlaylistUpdateSongApiView(views.APIView):
     serializer_class = PlaylistUpdateSongSerializer
 
-    def get(self, request, format=None):
+    def get(self, request, *args, **kwargs):
         data = Playlist.objects.all()
-        print(data)
         return Response(list(data.values()))
 
-    def post(self, request, format=None):
+    def post(self, request, *args, **kwargs):
         return Response({})

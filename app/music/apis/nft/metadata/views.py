@@ -68,6 +68,7 @@ class PinMetadata(views.APIView):
         del dataAlbum["user"]
         del dataAlbum["cover"]
         del dataAlbum["isPublic"]
+        del dataAlbum["isMint"]
 
         rep = {
             **dataAlbum,

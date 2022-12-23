@@ -13,6 +13,7 @@ from .apis.models.urls import routerModelViewSet
 from .apis.extends.playlist.views import PlaylistUpdateSongApiView
 from .apis.extends.album.views import AlbumUpdateSongApiView
 from .apis.extends.artist.views import ArtistApiView
+from .apis.extends.search.views import SearchApiView
 from .apis.nft.metadata.views import PinMetadata, Metadata,UpdateIsMintMetadata
 from .apis.nft.collection.views import Collection
 
@@ -32,6 +33,7 @@ class DocsView(views.APIView):
             'api/private/nft/metadata/<int:id>/': request.build_absolute_uri('api/private/nft/metadata/<int:id>/'),
             'api/public/nft/collection/': request.build_absolute_uri('api/public/nft/collection/'),
             'api/private/nft/update-mint-nft/': request.build_absolute_uri('api/private/nft/update-mint-nft/'),
+            'api/public/extends/search/': request.build_absolute_uri('api/public/extends/search/'),
         }
         return Response(apiDocs)
 
@@ -51,4 +53,5 @@ urlpatterns = [
     path(r'api/private/nft/metadata/<int:id>/', Metadata.as_view(), name='metadata'),
     path(r'api/public/nft/collection/', Collection.as_view(), name='collection'),
     path(r'api/private/nft/update-mint-nft/', UpdateIsMintMetadata.as_view(), name='update_mint_nft'),
+    path(r'api/public/extends/search/', SearchApiView.as_view(), name='search'),
 ]

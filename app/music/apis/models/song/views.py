@@ -16,6 +16,9 @@ from .serializers import SongSerializerPrivate, SongSerializerPublic
 
 
 class SongModelViewSetPrivate(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     # queryset = Song.objects.all().order_by('-id')
     serializer_class = SongSerializerPrivate
 
