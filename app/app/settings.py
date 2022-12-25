@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-x^v!ll3zk%j@xnl+%*f=2k#t8s&h)7i59&8whve63*x9tjdt+v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -149,7 +149,7 @@ AUTH_USER_MODEL = 'music.CustomUser'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000'
-    'chaintify:3000',
+    'web:3000',
 ]
 
 # APPEND_SLASH  = True

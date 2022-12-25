@@ -15,13 +15,15 @@ from ...models import CustomUser
 from .serializers import UploadSerializerPrivate
 import random
 
+from ...config import Config
+
 
 class UploadAPIViewPrivate(views.APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = UploadSerializerPrivate
     base_media = "media"
-    
+
     def post(self, request):
         serializer_class = UploadSerializerPrivate(data=request.data)
         if 'file_uploaded' not in request.FILES or not serializer_class.is_valid():
@@ -46,12 +48,14 @@ class UploadAPIViewPrivate(views.APIView):
             for chunk in f.chunks():
                 destination.write(chunk)
         return name
+
+
 class UploadAPIViewPublic(views.APIView):
     base_media = "media"
+
     def get(self, request):
         path = request.query_params.get("path")
         if path == None:
             return Response({})
-        redirect_to = f'/{self.base_media}/{path}'
+        redirect_to = f'{Config.BASE_DOMAIN}/{self.base_media}/{path}'
         return HttpResponseRedirect(redirect_to=redirect_to)
-
