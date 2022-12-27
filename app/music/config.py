@@ -6,7 +6,7 @@ class Config:
     # BASE_GETAWAY = "https://d9f9-2001-ee0-4b4f-8850-d941-46-7fa6-12bc.ap.ngrok.io/ipfs"
     # URL_API_IPFS = "/dns/ipfs/tcp/5001/http"
 
-    BASE_GETAWAY = "http://108.61.245.173:8080/ipfs"
+    BASE_GETAWAY = "http://149.28.157.139:8080/ipfs"
     URL_API_IPFS = "/dns/ipfs/tcp/5001/http"
 
     ALCHEMY_KEY = "Gnp3tbW0Wp0tJpdhVz1ZRtB9bqgYG03O"
