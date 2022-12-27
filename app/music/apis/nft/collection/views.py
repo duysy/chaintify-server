@@ -32,6 +32,7 @@ class Collection(views.APIView):
         CHAINTIFY_OWNER_ADDRESS = request.query_params.get('address')
         if not CHAINTIFY_OWNER_ADDRESS == None:
             url = f"https://polygon-mumbai.g.alchemy.com/nft/v2/{ALCHEMY_KEY}/getNFTs?owner={CHAINTIFY_OWNER_ADDRESS}&pageSize=100&contractAddresses[]={CHAINTIFY_CONTRACT_ADDRESS}&withMetadata=true&&refreshCache=false&tokenUriTimeoutInMs=2000"
+            print(url)
             headers = {"accept": "application/json"}
             response = requests.get(url, headers=headers)
             data = response.json()

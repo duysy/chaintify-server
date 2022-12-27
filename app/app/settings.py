@@ -148,8 +148,11 @@ AUTH_USER_MODEL = 'music.CustomUser'
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://127.0.0.1:3000'
-    'web:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost',
+    'http://127.0.0.1',
+    'http://web:3000',
+    'http://web:80',
     'http://108.61.245.173'
 ]
 

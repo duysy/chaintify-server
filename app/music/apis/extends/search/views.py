@@ -19,13 +19,14 @@ class SearchApiView(views.APIView):
     serializer_class = SearchSerializer
 
     def get(self, request, *args, **kwargs):
-        user = request.user
         text = request.query_params.get("text")
         if text != None:
             print("text : ", text)
             song = Song.objects.filter(name__contains=text, album__isPublic=True)[:5]
             artist = Artist.objects.filter(name__contains=text)[:5]
             album = Album.objects.filter(name__contains=text, isPublic=True)[:5]
-        return Response({**{"song": list(song.values())},
-                         **{"artist": list(artist.values())},
-                         **{"album": list(album.values())}, })
+            return Response({**{"song": list(song.values())},
+                             **{"artist": list(artist.values())},
+                             **{"album": list(album.values())}, })
+        else:
+            return Response({"error": "text not found"})

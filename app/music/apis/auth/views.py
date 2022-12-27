@@ -15,6 +15,7 @@ from ...models import CustomUser
 from .serializers import LoginSerializer
 
 import random
+import string
 from web3 import Web3
 from hexbytes import HexBytes
 from eth_account.messages import encode_defunct
@@ -25,35 +26,46 @@ class AuthAPIView(views.APIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
 
-    def randomNone(self):
-        return f"{random.randint(11111,999999)}"
+    def getNoneMessage(self, address):
+        none = self.randomString()
+        return f'''
+Welcome to Chaintify!
 
-    def get(self, request, format=None):
+This request will not trigger a blockchain transaction or cost any gas fees.
+
+Your authentication status will reset after login later.
+
+Wallet address: {address}
+
+None : {none}
+''' 
+
+    def randomString(self, n=30):
+        return ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=n))
+
+    def get(self, request, *args, **kwargs):
+        address = request.query_params.get('address')
+        none = self.getNoneMessage(address=address)
         try:
-            user = CustomUser.objects.get(username=request.user)
+            user = CustomUser.objects.get(username=address)
+            user.none = none
+            user.save()
         except:
-            return Response({"status": "Not Auth"})
-        user = model_to_dict(user)
-        del user['password']
-        return Response(user)
+            user = CustomUser.objects.create_user(username=address, password=self.randomString(n=14), none=none)
+        return Response({"none": user.none, "address": user.username})
 
     def post(self, request):
         signature = request.data.get('signature')
-
-        message = encode_defunct(text="hello")
+        none = request.data.get('none')
+        message = encode_defunct(text=none)
         address = w3.eth.account.recover_message(message, signature=HexBytes(signature))
-        print(address)
-
         try:
             user = CustomUser.objects.get(username=address)
-        except:
-            user = CustomUser.objects.create_user(username=address, password=self.randomNone(), none=self.randomNone())
-        token, created = Token.objects.get_or_create(user_id=user.id)
-        if created == False:
-            token.delete()
             token, _ = Token.objects.get_or_create(user_id=user.id)
-        print(user, token)
-        return Response({"token": token.key, "address": address})
+            print(user, token, address)
+            return Response({"token": token.key, "address": address})
+        except:
+            return Response({"error": "not found"})
 
     def delete(self, request, pk=None):
         username = request.user
