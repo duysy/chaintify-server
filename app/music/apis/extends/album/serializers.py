@@ -7,3 +7,10 @@ class AlbumUpdateSongSerializer(serializers.Serializer):
 
     class Meta:
         fields = ['song']
+
+
+class GetAlbumByArtistSerializer(serializers.Serializer):
+    id = serializers.CharField()
+
+    class Meta:
+        fields = ['id']

@@ -12,7 +12,7 @@ from django.urls import path, include
 from django.forms.models import model_to_dict
 
 from ....models import Album, Song
-from .serializers import AlbumUpdateSongSerializer
+from .serializers import AlbumUpdateSongSerializer, GetAlbumByArtistSerializer
 
 
 class AlbumUpdateSongApiView(views.APIView):
@@ -25,7 +25,7 @@ class AlbumUpdateSongApiView(views.APIView):
         except:
             return Response({"status": "Album not found"})
         dataAlbum = model_to_dict(dataAlbum)
-        
+
         artistsModel = dataAlbum.pop("artist")
         dataAlbum["artist"] = [model_to_dict(artist) for artist in artistsModel]
 
@@ -47,3 +47,16 @@ class AlbumUpdateSongApiView(views.APIView):
 
     def post(self, request):
         return Response({})
+
+
+class GetAlbumByArtistApiView(views.APIView):
+    serializer_class = GetAlbumByArtistSerializer
+
+    def get(self, request, *args, **kwargs):
+        id = request.query_params.get("id")
+        if (id != None):
+            print(id)
+            album = Album.objects.filter(artist=id)[:5]
+            print(list(album.values()))
+            return Response(list(album.values()))
+        return Response({"error": "id not found"})

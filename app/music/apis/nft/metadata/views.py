@@ -107,9 +107,12 @@ class Metadata(views.APIView):
         abi = '[{"type":"function","name":"uri","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"uint256","name":"id_"}],"outputs":[{"type":"string"}]}]'
         contract_instance = web3.eth.contract(address=address, abi=abi)
         tokenUri = contract_instance.functions.uri(id).call()
-        
-        response = requests.get(tokenUri)
-        metadata["metadata"] = response.json()
+        try:
+            response = requests.get(tokenUri)
+            metadata["metadata"] = response.json()
+        except:
+            pass
+
         return Response(metadata)
 
 

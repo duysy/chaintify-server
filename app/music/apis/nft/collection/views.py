@@ -59,7 +59,6 @@ class Collection(views.APIView):
 
                 ownedNftsArr.append(ownedNfts)
             return Response({"ownedNfts": ownedNftsArr})
-            return Response(data)
         return Response({"error": "Address not found"})
 
     def post(self, request):
