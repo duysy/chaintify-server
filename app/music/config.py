@@ -18,5 +18,5 @@ class Config:
     URL_API_IPFS = "/dns/ipfs/tcp/5001/http"
 
     ALCHEMY_KEY = "Gnp3tbW0Wp0tJpdhVz1ZRtB9bqgYG03O"
-    CHAINTIFY_CONTRACT_ADDRESS = "0xAC9676B8dacAfe02986B35d2D045724C7D1B9F93"
+    CHAINTIFY_CONTRACT_ADDRESS = "0xab091A35E9bf7D997a1DF8961cE76A1edf4a4530"
     RPC_URL = f"https://polygon-mumbai.g.alchemy.com/v2/{ALCHEMY_KEY}"

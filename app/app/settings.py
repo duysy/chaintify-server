@@ -163,7 +163,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1',
     'http://web:3000',
     'http://web:80',
-    'http://149.28.157.139'
+    'http://103.39.125.95'
 ]
 
 # APPEND_SLASH  = True
