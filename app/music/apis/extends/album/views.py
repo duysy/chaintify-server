@@ -56,7 +56,7 @@ class GetAlbumByArtistApiView(views.APIView):
         id = request.query_params.get("id")
         if (id != None):
             print(id)
-            album = Album.objects.filter(artist=id)[:5]
+            album = Album.objects.filter(artist=id, isPublic=True)[:5]
             print(list(album.values()))
             return Response(list(album.values()))
         return Response({"error": "id not found"})
