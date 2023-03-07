@@ -11,7 +11,7 @@ from .apis.models.urls import routerModelViewSet
 
 # from .apis.extends.urls import routerExtendsViewSet
 from .apis.extends.playlist.views import PlaylistUpdateSongApiView
-from .apis.extends.album.views import AlbumUpdateSongApiView, GetAlbumByArtistApiView
+from .apis.extends.album.views import GetAlbumByIdApiViewPublic, GetAlbumByIdApiViewPrivate, GetAlbumByArtistApiView
 from .apis.extends.artist.views import ArtistApiView
 from .apis.extends.search.views import SearchApiView
 from .apis.nft.metadata.views import PinMetadata, Metadata, UpdateIsMintMetadata
@@ -29,6 +29,7 @@ class DocsView(views.APIView):
             'api/public/upload/': request.build_absolute_uri('api/public/upload/'),
             'api/private/extends/playlists': request.build_absolute_uri('api/private/extends/playlists'),
             'api/public/extends/albums/${id}': request.build_absolute_uri('api/public/extends/albums/1'),
+            'api/private/extends/albums/${id}': request.build_absolute_uri('api/private/extends/albums/1'),
             'api/private/extends/artists': request.build_absolute_uri('api/private/extends/artists'),
             'api/private/nft/pin-metadata/<int:id>/': request.build_absolute_uri('api/private/nft/pin-metadata/<int:id>/'),
             'api/private/nft/metadata/<int:id>/': request.build_absolute_uri('api/private/nft/metadata/<int:id>/'),
@@ -50,7 +51,8 @@ urlpatterns = [
     path(r'api/private/upload/', UploadAPIViewPrivate.as_view()),
     path(r'api/public/upload/', UploadAPIViewPublic.as_view()),
     path(r'api/private/extends/playlists/', PlaylistUpdateSongApiView.as_view(), name='update_song_of_playlist'),
-    path(r'api/public/extends/albums/<int:id>/', AlbumUpdateSongApiView.as_view(), name='get_album_by_id'),
+    path(r'api/public/extends/albums/<int:id>/', GetAlbumByIdApiViewPublic.as_view(), name='get_album_by_id_public'),
+    path(r'api/private/extends/albums/<int:id>/', GetAlbumByIdApiViewPrivate.as_view(), name='get_album_by_id_private'),
     path(r'api/private/extends/artists/', ArtistApiView.as_view(), name='check_and_get_artist'),
     path(r'api/private/nft/pin-metadata/<int:id>/', PinMetadata.as_view(), name='pin_metadata'),
     path(r'api/private/nft/metadata/<int:id>/', Metadata.as_view(), name='metadata'),

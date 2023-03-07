@@ -110,8 +110,8 @@ class Metadata(views.APIView):
         try:
             response = requests.get(tokenUri)
             metadata["metadata"] = response.json()
-        except:
-            pass
+        except Exception as ex:
+            print(ex)
 
         return Response(metadata)
 
@@ -128,7 +128,7 @@ class UpdateIsMintMetadata(views.APIView):
                 dataAlbum.isMint = True
                 dataAlbum.save()
             except:
-                return Response({"status": "Album not found"})
+                return Response({"status": "Album not found"}, status=status.HTTP_404_NOT_FOUND)
 
             return Response({})
         else:

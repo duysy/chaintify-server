@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x^v!ll3zk%j@xnl+%*f=2k#t8s&h)7i59&8whve63*x9tjdt+v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = Config.DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
@@ -88,11 +88,11 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': Config.HOST,
-        'USER': Config.USER,
-        'NAME': Config.NAME,
-        'PASSWORD': Config.PASSWORD,
-        'PORT': Config.PORT,
+        'HOST': Config.HOST_DB,
+        'USER': Config.USER_DB,
+        'NAME': Config.NAME_DB,
+        'PASSWORD': Config.PASSWORD_DB,
+        'PORT': Config.PORT_DB,
     }
 }
 
@@ -163,8 +163,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1',
     'http://web:3000',
     'http://web:80',
-    'http://103.39.125.95'
-]
+    'http://149.28.228.217'
 
+]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]
 # APPEND_SLASH  = True
-# CORS_ORIGIN_ALLOW_ALL = True

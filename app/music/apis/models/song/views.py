@@ -24,7 +24,7 @@ class SongModelViewSetPrivate(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Song.objects.filter(album__user=user).order_by('-id')
+        return Song.objects.filter(user=user).order_by('-id')
 
 
 class SongModelViewSetPublic(viewsets.ModelViewSet):

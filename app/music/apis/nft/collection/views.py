@@ -39,26 +39,27 @@ class Collection(views.APIView):
             ownedNfts = data["ownedNfts"]
             ownedNftsArr = []
             for ownedNfts in ownedNfts:
-                if ownedNfts.get("error") == "IPFS gateway timed out":
+                if not ownedNfts.get("error") == None:
                     try:
                         tokenUri = ownedNfts["tokenUri"]["raw"]
                         metadata = requests.get(tokenUri)
                         ownedNfts["metadata"] = metadata.json()
                     except:
                         ownedNfts["metadata"] = {}
-                        idHex = ownedNfts["id"]["tokenId"]
-                        id = int(idHex, 0)
-                        web3 = Web3(Web3.HTTPProvider(RPC_URL))
-                        address = Web3.toChecksumAddress(CHAINTIFY_CONTRACT_ADDRESS)
-                        abi = '[{"type":"function","name":"uri","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"uint256","name":"id_"}],"outputs":[{"type":"string"}]}]'
-                        contract_instance = web3.eth.contract(address=address, abi=abi)
-                        tokenUri = contract_instance.functions.uri(id).call()
-                        metadata = requests.get(tokenUri)
-                        ownedNfts["metadata"] = metadata.json()
+
+                    # idHex = ownedNfts["id"]["tokenId"]
+                    # id = int(idHex, 0)
+                    # web3 = Web3(Web3.HTTPProvider(RPC_URL))
+                    # address = Web3.toChecksumAddress(CHAINTIFY_CONTRACT_ADDRESS)
+                    # abi = '[{"type":"function","name":"uri","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"uint256","name":"id_"}],"outputs":[{"type":"string"}]}]'
+                    # contract_instance = web3.eth.contract(address=address, abi=abi)
+                    # tokenUri = contract_instance.functions.uri(id).call()
+                    # metadata = requests.get(tokenUri)
+                    # ownedNfts["metadata"] = metadata.json()
 
                 ownedNftsArr.append(ownedNfts)
             return Response({"ownedNfts": ownedNftsArr})
-        return Response({"error": "Address not found"})
+        return Response({"error": "Address not found"}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
         return Response({})

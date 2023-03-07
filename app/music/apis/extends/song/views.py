@@ -33,4 +33,4 @@ class GetSongByArtistView(views.APIView):
             data = SongSerializer(queryset, many=True).data
             # print(list(data))
             return Response(list(data))
-        return Response({"error": "id not found"})
+        return Response({"error": "id not found"}, status=status.HTTP_404_NOT_FOUND)

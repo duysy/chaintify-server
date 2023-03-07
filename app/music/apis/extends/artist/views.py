@@ -23,7 +23,7 @@ class ArtistApiView(views.APIView):
         try:
             data = Artist.objects.get(user=user)
         except:
-            return Response({"status": "You not registry artist"})
+            return Response({"status": "You not registry artist"}, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
         return Response(model_to_dict(data))
 
     def post(self, request):

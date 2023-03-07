@@ -38,7 +38,7 @@ Your authentication status will reset after login later.
 Wallet address: {address}
 
 None : {none}
-''' 
+'''
 
     def randomString(self, n=30):
         return ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=n))
@@ -65,11 +65,12 @@ None : {none}
             print(user, token, address)
             return Response({"token": token.key, "address": address})
         except:
-            return Response({"error": "not found"})
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk=None):
         username = request.user
-        user = CustomUser.objects.get(username="username")
+        user = CustomUser.objects.get(username=username)
         token, created = Token.objects.get_or_create(user_id=user.id)
         token.delete()
+        token.save()
         return Response(status=status.HTTP_200_OK)

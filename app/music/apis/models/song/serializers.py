@@ -20,6 +20,18 @@ class SongSerializerPrivate(serializers.ModelSerializer):
                 depth = query_params.get("depth")
                 self.Meta.depth = int(depth)
 
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        user = request.user
+        artists = validated_data.pop("artist")
+        song = Song.objects.create(**validated_data)
+        song.user = user
+        for artist in artists:
+            song.artist.add(artist)
+        song.save()
+        return song
+
+
 class SongSerializerPublic(serializers.ModelSerializer):
     class Meta:
         model = Song

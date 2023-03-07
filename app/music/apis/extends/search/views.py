@@ -29,4 +29,4 @@ class SearchApiView(views.APIView):
                              **{"artist": list(artist.values())},
                              **{"album": list(album.values())}, })
         else:
-            return Response({"error": "text not found"})
+            return Response({"error": "text not found"}, status=status.HTTP_404_NOT_FOUND)
