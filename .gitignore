@@ -3,4 +3,4 @@ Lib
 Scripts
 pyvenv.cfg
 app/db.sqlite3
-app/media
+app/media/**
