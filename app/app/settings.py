@@ -155,6 +155,7 @@ REST_FRAMEWORK = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'music.CustomUser'
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1024*1024*100
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
