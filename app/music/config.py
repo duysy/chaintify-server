@@ -15,7 +15,7 @@ class Config:
     # BASE_GETAWAY = "https://8285-2a09-bac1-7ac0-30-00-19b-18e.ap.ngrok.io/ipfs"
     # URL_API_IPFS = "/dns/ipfs/tcp/5001/http"
 
-    BASE_GETAWAY = "http://149.28.228.217:8080/ipfs"
+    BASE_GETAWAY = "https://ipfs.chaintify.space/ipfs"
     URL_API_IPFS = "/dns/ipfs/tcp/5001/http"
 
     ALCHEMY_KEY = "Gnp3tbW0Wp0tJpdhVz1ZRtB9bqgYG03O"
