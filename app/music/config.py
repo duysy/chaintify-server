@@ -1,5 +1,5 @@
 class Config:
-    DEBUG = True
+    DEBUG = False
     BASE_DOMAIN = ""
 
     HOST_DB = 'db'
