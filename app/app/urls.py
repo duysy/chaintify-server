@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.http import HttpResponse
 
 
-def index():
+def index(request):
     return HttpResponse("<h1>HELLO, MY FRIEND</h1>")
 
 
