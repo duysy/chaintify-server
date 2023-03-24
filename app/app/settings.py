@@ -168,5 +168,5 @@ CORS_ALLOWED_ORIGINS = [
     'https://chaintify.space',
     'https://chaintify.space/',
 ]
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000", "https://api.chaintify.space"]
 # APPEND_SLASH  = True
